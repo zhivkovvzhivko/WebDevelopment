@@ -1,51 +1,62 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Jivko
- * Date: 3/30/2019
- * Time: 6:16 PM
- */
 
 namespace Core\App;
 
-
+use Core\Request\Request;
 use Core\View\ViewInterface;
 
 class Application
 {
     /**
-     * @var string
+     * @var Request
      */
-    private $controller_name;
+    private $request;
 
-    /**
-     * @var string
-     */
-    private $action_name;
-
-    /**
-     * @var array
-     */
-    private $params;
-
-    public function __construct(string $controller_name, string $action_name, array $params)
+    public function __construct(Request $request)
     {
-        $this->controller_name = $controller_name;
-        $this->action_name = $action_name;
-        $this->params = $params;
+        $this->request = $request;
     }
 
-    public function run(ViewInterface $view){
-        $controller_name = 'Controller\\' . $this->controller_name .'Controller';
+    public function run(ViewInterface $view)
+    {
+        // controller full name
+        $controller_name = $this->request->getFullControllerName();
         $controller = new $controller_name($view);
 
-        //call_user_func_array(
-        //    [$this->controller_name, $this->action_name],
-        //    $this->params
-        //);
+        if (!is_callable([$controller, $this->request->getActionName()])){
+            throw new \Exception('Action not exists');
+        }
 
-        // $controller->$action_name($params[0], $params[1]);
-         $controller->$this->action_name($this->params);
+        // getting method paramethers from certain controller
+        $action_data = new \ReflectionMethod($controller_name, $this->request->getActionName());
+        $aparams = $action_data->getParameters();
+        $params = [];
+        foreach ($aparams as $param){
+            $class = $param->getClass();
+            if ($class){
+                // new UserRegisterFormModel()
+                $class_name = $class->getName();
+                $param_obj = new $class_name();
+                $properties = new \ReflectionClass($param_obj);
 
+                foreach ($properties->getProperties() as $property){
+                    $property_name = $property->getName();
+
+                    if (array_key_exists($property_name, $_POST)){
+                        $setter = 'set'.implode(array_map(function ($element){
+                            return ucfirst($element);
+                        }, explode('_', $property_name)));
+
+                        $param_obj->$setter($_POST[$property_name]);
+                    }
+                }
+            }
+            $params[] = $param_obj;
+        }
+
+        call_user_func_array(
+            [$controller, $this->request->getActionName()],
+            $params
+        );
     }
 }

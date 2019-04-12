@@ -1,16 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Jivko
- * Date: 3/30/2019
- * Time: 1:50 PM
- */
 
 namespace Controller;
 
 use Core\View\View;
 use Core\View\ViewInterface;
 use Model\UserProfileViewModel;
+use Model\UserRegisterFormModel;
+use Service\UserService;
 
 class UsersController
 {
@@ -34,7 +30,10 @@ class UsersController
     }
 
     public function register(){
-//        echo ' first: '. $first_name . ' last: ' . $last_name;
         $this->view->render();
+    }
+
+    public function registerSave(UserRegisterFormModel $user_model, UserService $user_service){
+        $user_model->register($user_service);
     }
 }

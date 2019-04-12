@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Jivko
- * Date: 3/30/2019
- * Time: 5:41 PM
- */
 
 namespace Model;
 
@@ -22,6 +16,8 @@ class UserProfileViewModel
 
     /**
      * UserProfileViewModel constructor.
+     * @param string $first_name
+     * @param string $last_name
      */
     public function __construct(string $first_name, string $last_name)
     {
@@ -44,5 +40,4 @@ class UserProfileViewModel
     {
         return $this->last_name;
     }
-
 }
