@@ -36,6 +36,6 @@ abstract class Animal
 
 	public function eatFood(Food $food)
 	{
-		$this->foodEaten = $food->getQuantity();
+		$this->foodEaten =+ $food->getQuantity();
 	}
 }

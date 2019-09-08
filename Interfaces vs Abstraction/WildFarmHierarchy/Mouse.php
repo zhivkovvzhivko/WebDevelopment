@@ -2,7 +2,7 @@
 
 class Mouse extends Mammal
 {
-	
+
 	public function makeSound()
 	{
 		echo 'SQUEEEAAAK!' . PHP_EOL;
@@ -10,6 +10,7 @@ class Mouse extends Mammal
 
 	public function eatFood(Food $food)
 	{
+		$this->makeSound() . PHP_EOL;
 		if (!$food->getFoodType() == 'Vegetable') {
 			echo 'Mouse are not eating that type of food!';
 		} else {

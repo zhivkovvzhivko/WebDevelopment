@@ -25,6 +25,7 @@ class Cat extends Felime
 
 	public function eatFood(Food $food)
 	{
+		$this->makeSound() . PHP_EOL;
 		$this->foodEaten =+ $food->getQuantity();
 	}
 

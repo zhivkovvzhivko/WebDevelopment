@@ -10,6 +10,7 @@ class Zebra extends Mammal
 
 	public function eatFood(Food $food)
 	{
+		$this->makeSound() . PHP_EOL;
 		if (!$food->getFoodType() == 'Vegetable') {
 			echo 'Zebra are not eating that type of food!';
 		} else {

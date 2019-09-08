@@ -47,7 +47,6 @@ while ($command != 'End') {
 			$food = new Meat(intval($foodQuantity));
 		}
 
-		$animal->makeSound() . PHP_EOL;
 		$animal->eatFood($food);
 
 		echo $animal . PHP_EOL;
