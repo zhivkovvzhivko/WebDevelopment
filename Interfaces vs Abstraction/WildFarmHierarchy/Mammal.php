@@ -6,9 +6,7 @@ class Mammal extends Animal
 
 	public function __construct(string $animalName, string $animalType, float $animalWeight, string $livingRegion)
 	{
-		$this->setName($animalName);
-		$this->setType($animalType);
-		$this->setWeight($animalWeight);
+		parent::__construct($animalName, $animalType, $animalWeight);
 		$this->setLivingRegion($livingRegion);
 	}
 

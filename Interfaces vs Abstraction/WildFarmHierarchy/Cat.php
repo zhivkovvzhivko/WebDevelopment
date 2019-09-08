@@ -6,10 +6,7 @@ class Cat extends Felime
 
 	public function __construct(string $animalType, string $animalName, float $animalWeight, $animalLivingRegion, string $breed)
 	{
-		$this->setName($animalName);
-		$this->setType($animalType);
-		$this->setWeight($animalWeight);
-		$this->setLivingRegion($animalLivingRegion);
+		parent::__construct($animalName, $animalType, $animalWeight, $animalLivingRegion);
 		$this->setBreed($breed);
 	}
 
