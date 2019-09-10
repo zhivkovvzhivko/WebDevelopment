@@ -1,6 +1,6 @@
 <?php
 
-class Spy
+class Spy extends Soldier
 {
 	private $codeNumber;
 
@@ -22,6 +22,6 @@ class Spy
 	public function __toString()
 	{
 		// TODO
-		return 'Name:'. $this->firstName .' '. $this->lastName .' '. $this->id .' '. $this->getCodeNumber();
+		return parent::__toString() . "\n Code Number:{$this->getCodeNumber()}";
 	}
 }

@@ -8,4 +8,7 @@ class Commando
 	{
 		$this->missions = $missions;
 	}
+
+	// TODO
+	// A mission holds code name and a state
 }

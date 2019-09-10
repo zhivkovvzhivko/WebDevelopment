@@ -11,6 +11,7 @@ class LeutenantGeneral extends PrivateSoldier
 
 	public function __toString()
 	{
+		// TODO
 		return parent::__toString();
 	}
 }
