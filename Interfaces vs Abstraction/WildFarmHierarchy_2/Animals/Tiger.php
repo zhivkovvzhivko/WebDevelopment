@@ -20,16 +20,13 @@ class Tiger extends Felime
      */
     public function eat(Food $food): void
     {
-        $foodClass = new \ReflectionClass($food); // Meat or Vegetable
-
         $func = new \ReflectionClass($this);
         $className = str_replace('Animals\\', '', $func->getName());
 
-        if ($foodClass->getName() == 'Meat') {
-
+        if ($food->getClassName() == 'Meat') {
+            $this->setFoodEaten($food);
         } else {
             throw new \Exception($className . "s are not eating that type of food!\n");
         }
-        $this->setFoodEaten($food);
     }
 }

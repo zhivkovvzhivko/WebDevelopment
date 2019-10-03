@@ -15,6 +15,7 @@ class Vegetable extends Food
     public function getClassName(): string
     {
         $func = new \ReflectionClass($this);
-        return $func->getName();
+        $foodClassName = str_replace('Foods\\', '', $func->getName());
+        return $foodClassName;
     }
 }
