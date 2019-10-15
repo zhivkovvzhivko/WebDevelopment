@@ -16,14 +16,16 @@ class Application {
             if (!class_exists($type)){
                 throw new Exception('Non valid type');
             }
-            if (isset()){
-                throw new Exception('This type already exists');
+            if (isset($this->vehicles[$type])){
+                echo 'This type already exists';
+                continue;
             }
             $this->vehicles[$type] = new $type($fuel, $consumption);
         }
     }
 
-    public function printData(){
+    public function printData()
+    {
         while($line = readline('Type operation')) {
             if ($line === '') {
                 break;
@@ -42,7 +44,6 @@ class Application {
         }
     }
 }
-
 
 abstract class Vehicle
 {
@@ -69,7 +70,8 @@ abstract class Vehicle
         $this->consumption = $consumption;
     }
 
-    public function drive(int $distance){
+    public function drive(int $distance)
+    {
         $range = $this->getFuel() / $this->getConsumption();
         if ($distance > $range){
             $this->last_status = 'needs refueling';
@@ -79,7 +81,8 @@ abstract class Vehicle
         return $range;
     }
 
-    public function refuel(int $fuel){
+    public function refuel(int $fuel)
+    {
         $this->fuel += $fuel;
         $this->last_status = $this->getFuel() + $fuel;
     }
@@ -103,16 +106,20 @@ abstract class Vehicle
     }
 }
 
-class Car extends Vehicle{
+class Car extends Vehicle
+{
 
-    public function getConsumption(){
+    public function getConsumption()
+    {
         return $this->consumption + 0.9;
     }
 }
 
-class Truck extends Vehicle{
+class Truck extends Vehicle
+{
 
-    public function getConsumption(){
+    public function getConsumption()
+    {
         return $this->consumption + 1.6;
     }
 
