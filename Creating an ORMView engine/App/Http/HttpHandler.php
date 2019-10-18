@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Data\ErrorDTO;
 use App\Data\UserDTO;
 use App\Service\UserServiceInterface;
 
@@ -47,6 +48,7 @@ class HttpHandler extends HttpHandlerAbstract
             $this->handleRegisterProcess($userService, $formData);
         } else {
             $this->render('users/register');
+            new ErrorDTO('Username already taken or password mismatch.');
         }
     }
 
@@ -66,6 +68,8 @@ class HttpHandler extends HttpHandlerAbstract
 
         if ($userService->register($user, $formData['confirm_password'])) {
             $this->redirect('login.php');
+        } else {
+            $this->render('app/error', new ErrorDTO('Username does not exist or password mismatch.'));
         }
     }
 

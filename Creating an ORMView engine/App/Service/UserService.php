@@ -24,7 +24,7 @@ class UserService implements UserServiceInterface
         }
 
         // Checks(select) if username exists in DB already (!== null) - breaks. If NOT exists continue to insert new user.
-        if ($this->userRepository->findOneByUsername($userDTO->getFirstName()) !== null) {
+        if ($this->userRepository->findOneByUsername($userDTO->getUsername()) !== null) {
             return false;
         }
 
@@ -61,6 +61,12 @@ class UserService implements UserServiceInterface
 
     public function edit(UserDTO $userDTO): bool
     {
+        $currentUser = $this->userRepository->findOneByUsername($userDTO->getUsername());
+
+        if ($currentUser !== null) {
+            return false;
+        }
+
         $this->encryptPassword($userDTO);
         return $this->userRepository->update($_SESSION['id'], $userDTO);
     }
