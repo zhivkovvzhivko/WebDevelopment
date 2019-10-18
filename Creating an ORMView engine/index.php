@@ -1,3 +1,4 @@
 <?php
 
-echo 'i am in index';
+require_once 'common.php';
+$userHttpHandler->index($userService);

@@ -81,4 +81,14 @@ class UserRepository implements UserRepositoryInterface
 
         return true;
     }
+
+    public function findAll(): \Generator
+    {
+        return $this->db->query("
+            SELECT id, username, password, first_name AS firstName, last_name AS lastName, born_on
+            FROM users
+        ")
+            ->execute()
+            ->fetch(UserDTO::class);
+    }
 }

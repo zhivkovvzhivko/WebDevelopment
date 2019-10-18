@@ -32,3 +32,6 @@
         <input type="submit" name="edit" value="Edit Profile"/>
     </div>
 </form>
+
+You can <a href="logout.php">logout</a> or see
+                    <a href="all.php">all users</a>

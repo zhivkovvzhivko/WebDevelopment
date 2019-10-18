@@ -10,4 +10,9 @@ interface UserServiceInterface
     public function login(string $username, string $password) : ?UserDTO;
     public function currentUser() : ?UserDTO;
     public function edit(UserDTO $userDTO) : bool;
+
+    /*
+     * @return \Generator|UserDTO[]
+     */
+    public function all() : \Generator;
 }

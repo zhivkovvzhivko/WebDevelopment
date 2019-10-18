@@ -7,6 +7,16 @@ use App\Service\UserServiceInterface;
 
 class HttpHandler extends HttpHandlerAbstract
 {
+    public function index()
+    {
+        $this->render('home/index');
+    }
+
+    public function allUsers(UserServiceInterface $userService)
+    {
+        $this->render('users/all', $userService->all());
+    }
+
     public function profile(UserServiceInterface $userService, array $formData = [])
     {
         $currentUser = $userService->currentUser();

@@ -74,4 +74,9 @@ class UserService implements UserServiceInterface
         $passwordHash = password_hash($plainText, PASSWORD_DEFAULT);
         $userDTO->setPassword($passwordHash);
     }
+
+    public function all(): \Generator
+    {
+        return $this->userRepository->findAll();
+    }
 }
