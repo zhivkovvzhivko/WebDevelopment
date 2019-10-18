@@ -28,10 +28,50 @@ class UserService implements UserServiceInterface
             return false;
         }
 
+        $this->encryptPassword($userDTO);
+
+        return $this->userRepository->insert($userDTO);
+    }
+
+    public function login(string $username, string $password): ?UserDTO
+    {
+        $currentUser = $this->userRepository->findOneByUsername($username);
+
+        if ($currentUser === null) {
+            return null;
+        }
+
+        $userPasswordHash =  $currentUser->getPassword();
+
+        if (false === password_verify($password, $userPasswordHash)) {
+            return null;
+        }
+
+        return $currentUser;
+    }
+
+    public function currentUser(): ?UserDTO
+    {
+        if (!isset($_SESSION['id'])) {
+            return null;
+        }
+
+        return $this->userRepository->findOneById($_SESSION['id']);
+    }
+
+    public function edit(UserDTO $userDTO): bool
+    {
+        $this->encryptPassword($userDTO);
+        return $this->userRepository->update($_SESSION['id'], $userDTO);
+    }
+
+    /**
+     * @param UserDTO $userDTO
+     */
+    private function encryptPassword(UserDTO $userDTO): void
+    {
         $plainText = $userDTO->getPassword();
         $passwordHash = password_hash($plainText, PASSWORD_DEFAULT);
         $userDTO->setPassword($passwordHash);
-
-        return $this->userRepository->insert($userDTO);
     }
 }

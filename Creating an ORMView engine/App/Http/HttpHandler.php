@@ -7,21 +7,84 @@ use App\Service\UserServiceInterface;
 
 class HttpHandler extends HttpHandlerAbstract
 {
-    public function register(UserServiceInterface $userService, array $formData = []) {
-        if (isset($formData['register'])) {
-            $user = UserDTO::create(
-                $formData['username'],
-                $formData['password'],
-                $formData['first_name'],
-                $formData['last_name'],
-                $formData['born_on']
-            );
+    public function profile(UserServiceInterface $userService, array $formData = [])
+    {
+        $currentUser = $userService->currentUser();
 
-            if($userService->register($user, $formData['confirm_password'])) {
-                $this->redirect('login.php');
-            }
+        if($currentUser == null) {
+            $this->redirect('login.php');
+        }
+
+        if (isset($formData['edit'])) {
+            $this->handleEditProcess($userService, $formData);
+        } else {
+            $this->render('users/profile', $currentUser);
+        }
+    }
+
+    public function login(UserServiceInterface $userService, array $formData = [])
+    {
+        if (isset($formData['login'])) {
+            $this->handleLoginProcess($userService, $formData);
+        } else{
+            $this->render('users/login');
+        }
+    }
+
+    public function register(UserServiceInterface $userService, array $formData = [])
+    {
+        if (isset($formData['register'])) {
+            $this->handleRegisterProcess($userService, $formData);
         } else {
             $this->render('users/register');
+        }
+    }
+
+    /**
+     * @param UserServiceInterface $userService
+     * @param array $formData
+     */
+    private function handleRegisterProcess(UserServiceInterface $userService, array $formData): void
+    {
+        $user = UserDTO::create(
+            $formData['username'],
+            $formData['password'],
+            $formData['first_name'],
+            $formData['last_name'],
+            $formData['born_on']
+        );
+
+        if ($userService->register($user, $formData['confirm_password'])) {
+            $this->redirect('login.php');
+        }
+    }
+
+    private function handleLoginProcess(UserServiceInterface $userService, array $formData): void
+    {
+        $currentUser = $userService->login($formData['username'], $formData['password']);
+
+        if ($currentUser !== null) {
+            $_SESSION['id'] = $currentUser->getId();
+            $this->redirect('profile.php');
+        } else {
+            //TODO EXCEPTION IF USER CAN'T AUTHENTICATE
+        }
+    }
+
+    private function handleEditProcess(UserServiceInterface $userService, array $formData): void
+    {
+        $user = UserDTO::create(
+            $formData['username'],
+            $formData['password'],
+            $formData['first_name'],
+            $formData['last_name'],
+            $formData['born_on']
+        );
+
+        if ($userService->edit($user)) {
+            $this->redirect('profile.php');
+        } else {
+
         }
     }
 }
