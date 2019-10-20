@@ -12,4 +12,4 @@ $db = new \Database\PDODatabase($pdo);
 $userRepository = new \App\Repository\UserRepository($db);
 $userService = new \App\Service\UserService($userRepository);
 
-$userHttpHandler = new \App\Http\HttpHandler($template);
+$userHttpHandler = new \App\Http\HttpHandler($template, new \Core\DataBinder());

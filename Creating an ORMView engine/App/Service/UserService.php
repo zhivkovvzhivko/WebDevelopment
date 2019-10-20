@@ -20,11 +20,13 @@ class UserService implements UserServiceInterface
     public function register(UserDTO $userDTO, string $confirmPassword): bool
     {
         if ($userDTO->getPassword() != $confirmPassword) {
+            echo ' password checing ';
             return false;
         }
 
         // Checks(select) if username exists in DB already (!== null) - breaks. If NOT exists continue to insert new user.
         if ($this->userRepository->findOneByUsername($userDTO->getUsername()) !== null) {
+            echo ' name before check checing ';
             return false;
         }
 

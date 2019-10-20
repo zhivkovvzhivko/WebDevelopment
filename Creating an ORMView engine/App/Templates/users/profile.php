@@ -10,22 +10,22 @@
     </div>
     <div>
         Password: <label>
-            <input type="text" name="password"/>
+            <input type="text" required="required" name="password"/>
         </label>
     </div>
     <div>
         First name: <label>
-            <input type="text" name="first_name" value="<?= $data->getFirstName() ?>"/>
+            <input type="text" name="firstName" value="<?= $data->getFirstName() ?>"/>
         </label>
     </div>
     <div>
         Last name: <label>
-            <input type="text" name="last_name" value="<?= $data->getLastName() ?>"/>
+            <input type="text" name="lastName" value="<?= $data->getLastName() ?>"/>
         </label>
     </div>
     <div>
         Birthday: <label>
-            <input type="text" name="born_on" value="<?= $data->getBornOn() ?>"/>
+            <input type="text" name="bornOn" value="<?= $data->getBornOn() ?>"/>
         </label>
     </div>
     <div>

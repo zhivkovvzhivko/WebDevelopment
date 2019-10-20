@@ -48,7 +48,6 @@ class HttpHandler extends HttpHandlerAbstract
             $this->handleRegisterProcess($userService, $formData);
         } else {
             $this->render('users/register');
-            new ErrorDTO('Username already taken or password mismatch.');
         }
     }
 
@@ -58,18 +57,12 @@ class HttpHandler extends HttpHandlerAbstract
      */
     private function handleRegisterProcess(UserServiceInterface $userService, array $formData): void
     {
-        $user = UserDTO::create(
-            $formData['username'],
-            $formData['password'],
-            $formData['first_name'],
-            $formData['last_name'],
-            $formData['born_on']
-        );
+        $user = $this->dataBinder->bind($formData, UserDTO::class);
 
         if ($userService->register($user, $formData['confirm_password'])) {
             $this->redirect('login.php');
         } else {
-            $this->render('app/error', new ErrorDTO('Username does not exist or password mismatch.'));
+            $this->render('app/error', new ErrorDTO('Username is already taken or password mismatch.'));
         }
     }
 
@@ -81,24 +74,19 @@ class HttpHandler extends HttpHandlerAbstract
             $_SESSION['id'] = $currentUser->getId();
             $this->redirect('profile.php');
         } else {
-            //TODO EXCEPTION IF USER CAN'T AUTHENTICATE
+            $this->render('app/error', new ErrorDTO('Username does not exist or password mismatch.'));
         }
     }
 
     private function handleEditProcess(UserServiceInterface $userService, array $formData): void
     {
-        $user = UserDTO::create(
-            $formData['username'],
-            $formData['password'],
-            $formData['first_name'],
-            $formData['last_name'],
-            $formData['born_on']
-        );
+        $user = $this->dataBinder->bind($formData, UserDTO::class);
 
         if ($userService->edit($user)) {
             $this->redirect('profile.php');
         } else {
-
+            // Add check in Service for this error
+            $this->render('app/error', new ErrorDTO('Error editing profile.'));
         }
     }
 }

@@ -18,17 +18,17 @@
     </div>
     <div>
         First name: <label>
-            <input type="text" name="first_name"/>
+            <input type="text" name="firstName"/>
         </label>
     </div>
     <div>
         Last name: <label>
-            <input type="text" name="last_name"/>
+            <input type="text" name="lastName"/>
         </label>
     </div>
     <div>
         Birthday: <label>
-            <input type="text" name="born_on"/>
+            <input type="text" name="bornOn"/>
         </label>
     </div>
     <div>
