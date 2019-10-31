@@ -4,8 +4,11 @@ namespace App\Http;
 
 use App\Data\EditDTO;
 use App\Data\TaskDTO;
+use App\Service\CategoryService;
 use App\Service\CategoryServiceInterface;
+use App\Service\TaskService;
 use App\Service\TaskServiceInterface;
+use App\Service\UserService;
 use App\Service\UserServiceInterface;
 
 class TaskHttpHandler extends HttpHandlerAbstract
@@ -22,16 +25,6 @@ class TaskHttpHandler extends HttpHandlerAbstract
         $editDTO->setTask($task);
         $editDTO->setCategories($categoryService->getAll());
 
-        foreach($categoryService->getAll() as $category) {
-//            echo '<pre/>'; print_r([
-//                'category' => $category,
-//                'name' => $category->getName()
-//            ]);
-        }
-
-//var_dump($categoryService->getAll());
-//echo '<pre/>'; print_r($editDTO);
-
         if(isset($formData['save'])) {
             $this->handleInsertProcess($taskService, $userService, $categoryService, $formData);
         } else {
@@ -42,8 +35,26 @@ class TaskHttpHandler extends HttpHandlerAbstract
     private function handleInsertProcess(TaskServiceInterface $taskService, UserServiceInterface $userService, CategoryServiceInterface $categoryService, $formData)
     {
         /**
-         * $var TaskService $taskService
+         * @var TaskDTO $task
          */
         $task = $this->dataBinder->bind($formData, TaskDTO::class);
+
+
+        /** @var UserService $userService */
+        $author = $userService->currentUser();
+
+        /** @var CategoryService $categoryService */
+        $category = $categoryService->getOne(intval($formData['category_id']));
+
+        $task->setAuthor($author);
+        $task->setCategory($category);
+        
+//echo 'sess_id: ', $_SESSION['id']; exit;
+//        $taskService->add($task);
+//        echo '<pre/>'; print_r($task); exit;
+
+        /** @var TaskService $taskService */
+        $taskService->add($task);
+        $this->redirect('dashboard.php');
     }
 }
