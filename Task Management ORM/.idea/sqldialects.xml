@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/App/Repository/CategoryRepository.php" dialect="GenericSQL" />
+    <file url="PROJECT" dialect="MySQL" />
+  </component>
+  <component name="SqlResolveMappings">
+    <file url="PROJECT" scope="{&quot;node&quot;:{  &quot;@negative&quot;:&quot;1&quot;,  &quot;group&quot;:{   &quot;@kind&quot;:&quot;root&quot;,   &quot;node&quot;:{    &quot;name&quot;:{     &quot;@qname&quot;:&quot;c91c09a7-1d7d-45e7-a431-4d58ab04b48f&quot;    },    &quot;group&quot;:{     &quot;@kind&quot;:&quot;schema&quot;,     &quot;node&quot;:{      &quot;name&quot;:{       &quot;@qname&quot;:&quot;task_management_system&quot;      }     }    }   }  } }}" />
+  </component>
+</project>

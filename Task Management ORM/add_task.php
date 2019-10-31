@@ -1,0 +1,10 @@
+<?php
+
+require_once 'common.php';
+
+$taskService = new \App\Service\TaskService(new \App\Repository\TaskRepository($db));
+$userService = new \App\Service\UserService(new \App\Repository\UserRepository($db));
+$categoryService = new \App\Service\CategoryService(new \App\Repository\CategoryRepository($db));
+
+$taskHttpHandler = new \App\Http\TaskHttpHandler($template, new \Core\DataBinder());
+$taskHttpHandler->add($taskService, $userService, $categoryService, $_POST);
