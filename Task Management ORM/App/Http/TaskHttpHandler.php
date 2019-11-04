@@ -48,7 +48,6 @@ class TaskHttpHandler extends HttpHandlerAbstract
 
         $task->setAuthor($author);
         $task->setCategory($category);
-//        $taskService->add($task);
 
         /** @var TaskService $taskService */
         $taskService->add($task);

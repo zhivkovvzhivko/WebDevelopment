@@ -24,8 +24,6 @@ class HomeHttpHandler extends HttpHandlerAbstract
 
         $allTasks = $taskService->getAll();
 
-//        echo ' i am in homeHttp', '<pre/>'; print_r($allTasks);
-
         $this->render('tasks/all');
     }
 }
