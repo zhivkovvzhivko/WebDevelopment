@@ -38,7 +38,7 @@ class TaskRepository implements TaskRepositoryInterface
                 due_date 
             FROM tasks
         ")->execute()
-        ->fetch(TaskDTO::class);
+            ->fetch(TaskDTO::class);
     }
 
     public function findOne(int $id): TaskDTO
@@ -62,19 +62,23 @@ class TaskRepository implements TaskRepositoryInterface
 
     public function insert(TaskDTO $taskDTO): bool
     {
-        $this->db->query("
+        try {
+            $this->db->query("
             INSERT INTO tasks (id, title, description, location, user_id, category_id, started_on, due_date)
             VALUES(?, ?, ?, ?, ?, ?, ?, ?)
         ")->execute([
-            $taskDTO->getId(),
-            $taskDTO->getTitle(),
-            $taskDTO->getDescription(),
-            $taskDTO->getLocation(),
-            $taskDTO->getAuthor()->getId(),
-            $taskDTO->getCategory()->getId(),
-            $taskDTO->getStartedOn(),
-            $taskDTO->getDueDate()
-        ]);
+                $taskDTO->getId(),
+                $taskDTO->getTitle(),
+                $taskDTO->getDescription(),
+                $taskDTO->getLocation(),
+                $taskDTO->getAuthor()->getId(),
+                $taskDTO->getCategory()->getId(),
+                $taskDTO->getStartedOn(),
+                $taskDTO->getDueDate()
+            ]);
+        } catch (\PDOException $e) {
+            echo $e->getCode(), $e->getMessage();
+        }
 
         return true;
     }

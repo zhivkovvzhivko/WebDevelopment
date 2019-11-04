@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Service\TaskService;
 use App\Service\UserServiceInterface;
 
 class HomeHttpHandler extends HttpHandlerAbstract
@@ -15,11 +16,15 @@ class HomeHttpHandler extends HttpHandlerAbstract
         }
     }
 
-    public function dashboard()
+    public function dashboard(TaskService $taskService)
     {
         if (!isset($_SESSION['id'])) {
             $this->redirect('login.php');
         }
+
+        $allTasks = $taskService->getAll();
+
+//        echo ' i am in homeHttp', '<pre/>'; print_r($allTasks);
 
         $this->render('tasks/all');
     }

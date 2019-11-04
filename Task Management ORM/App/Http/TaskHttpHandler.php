@@ -48,10 +48,7 @@ class TaskHttpHandler extends HttpHandlerAbstract
 
         $task->setAuthor($author);
         $task->setCategory($category);
-        
-//echo 'sess_id: ', $_SESSION['id']; exit;
 //        $taskService->add($task);
-//        echo '<pre/>'; print_r($task); exit;
 
         /** @var TaskService $taskService */
         $taskService->add($task);

@@ -50,7 +50,7 @@ class UserRepository implements UserRepositoryInterface
     public function findOneById(int $id): ?UserDTO
     {
         return $this->db->query("
-            SELECT username, password, first_name AS firstName, last_name AS lastName
+            SELECT id, username, password, first_name AS firstName, last_name AS lastName
             FROM users
             WHERE id = ?
         ")->execute([$id])

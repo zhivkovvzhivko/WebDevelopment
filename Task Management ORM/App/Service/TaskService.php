@@ -27,7 +27,7 @@ class TaskService implements TaskServiceInterface
      */
     public function getAll(): \Generator
     {
-        $this->taskRepository->findAll();
+        return $this->taskRepository->findAll();
     }
 
     public function getOne(int $id): TaskDTO
