@@ -2,7 +2,7 @@
 
 require_once 'common.php';
 
-$taskService = new \App\Service\TaskService(new \App\Repository\TaskRepository($db));
+$taskService = new \App\Service\TaskService(new \App\Repository\TaskRepository($db, new \Core\DataBinder()));
 $userService = new \App\Service\UserService(new \App\Repository\UserRepository($db));
 $categoryService = new \App\Service\CategoryService(new \App\Repository\CategoryRepository($db));
 

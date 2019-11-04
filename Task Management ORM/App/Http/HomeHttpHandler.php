@@ -24,6 +24,6 @@ class HomeHttpHandler extends HttpHandlerAbstract
 
         $allTasks = $taskService->getAll();
 
-        $this->render('tasks/all');
+        $this->render('tasks/all', $allTasks);
     }
 }

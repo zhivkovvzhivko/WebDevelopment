@@ -11,10 +11,16 @@ class PDOResultSet implements ResultSetInterface
         $this->pdoStatement = $pdoStatement;
     }
 
-    public function fetch($className) : \Generator
+    public function fetch($className = null) : \Generator
     {
-        while ($row = $this->pdoStatement->fetchObject($className)) {
-            yield $row;
+        if ($className === null) {
+            while ($row = $this->pdoStatement->fetch(\PDO::FETCH_ASSOC)) {
+                yield $row;
+            }
+        } else {
+            while ($row = $this->pdoStatement->fetchObject($className)) {
+                yield $row;
+            }
         }
     }
 }

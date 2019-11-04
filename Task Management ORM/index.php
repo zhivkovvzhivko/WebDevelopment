@@ -1,4 +1,7 @@
 <?php
 
 require_once 'common.php';
-$userHttpHandler->index($userService);
+
+$userService = new \App\Service\UserService(new \App\Repository\UserRepository($db));
+$homeHttpHandler = new \App\Http\HomeHttpHandler($template, new \Core\DataBinder());
+$homeHttpHandler->index($userService);

@@ -2,7 +2,10 @@
 
 namespace App\Repository;
 
+use App\Data\CategoryDTO;
 use App\Data\TaskDTO;
+use App\Data\UserDTO;
+use Core\DataBinderInterface;
 use Database\DatabaseInterface;
 
 class TaskRepository implements TaskRepositoryInterface
@@ -11,14 +14,20 @@ class TaskRepository implements TaskRepositoryInterface
      * @var DatabaseInterface
      */
     private $db;
+    /**
+     * @var DataBinderInterface
+     */
+    private $dataBinder;
 
     /**
      * TaskRepository constructor.
      * @param DatabaseInterface $db
+     * @param DataBinderInterface $dataBinder
      */
-    public function __construct(DatabaseInterface $db)
+    public function __construct(DatabaseInterface $db, DataBinderInterface $dataBinder)
     {
         $this->db = $db;
+        $this->dataBinder = $dataBinder;
     }
 
     /**
@@ -26,38 +35,89 @@ class TaskRepository implements TaskRepositoryInterface
      */
     public function findAll(): \Generator
     {
-        return $this->db->query("
+        $lazyTaskResult =  $this->db->query("
             SELECT 
-                id, 
-                title, 
-                description, 
-                location, 
-                user_id, 
-                category_id,
-                started_on, 
-                due_date 
-            FROM tasks
+                t.id AS task_id, 
+                t.title, 
+                t.description, 
+                t.location, 
+                u.id AS author_id, 
+                u.username, 
+                u.password, 
+                u.first_name, 
+                u.last_name, 
+                c.id AS category_id,
+                c.name,
+                t.started_on, 
+                t.due_date 
+            FROM tasks t
+            INNER JOIN users u ON t.user_id = u.id 
+            INNER JOIN categories c ON t.category_id = c.id
+            ORDER BY t.due_date DESC, t.id ASC
         ")->execute()
-            ->fetch(TaskDTO::class);
+            ->fetch();
+
+        // Binding/mapping columns from DB to DTO
+        foreach ($lazyTaskResult as $row) {
+            /** @var TaskDTO $task */
+            $task = $this->dataBinder->bind($row, TaskDTO::class);
+            /** @var UserDTO $author */
+            $author = $this->dataBinder->bind($row, UserDTO::class);
+            /** @var CategoryDTO $category */
+            $category = $this->dataBinder->bind($row, CategoryDTO::class);
+
+            $task->setId($row['task_id']);
+            $author->setId($row['author_id']);
+            $category->setId($row['category_id']);
+
+            $task->setAuthor($author);
+            $task->setCategory($category);
+
+            yield $task;
+        }
     }
 
     public function findOne(int $id): TaskDTO
     {
-        return $this->db->query("
+        $row =  $this->db->query("
             SELECT 
-                id, 
-                title, 
-                description, 
-                location, 
-                user_id, 
-                category_id, 
-                started_on, 
-                due_date 
-            FROM tasks
-            WHERE id = ?
-        ")->execute([$id])
-            ->fetch(TaskDTO::class)
+                t.id AS task_id, 
+                t.title, 
+                t.description, 
+                t.location, 
+                u.id AS author_id, 
+                u.username, 
+                u.password, 
+                u.first_name, 
+                u.last_name, 
+                c.id AS category_id,
+                c.name,
+                t.started_on, 
+                t.due_date 
+            FROM tasks t
+            INNER JOIN users u ON t.user_id = u.id 
+            INNER JOIN categories c ON t.category_id = c.id
+            ORDER BY t.due_date DESC, t.id ASC
+        ")->execute()
+            ->fetch()
             ->current();
+
+        // Binding/mapping columns from DB to DTO
+        /** @var TaskDTO $task */
+        $task = $this->dataBinder->bind($row, TaskDTO::class);
+        /** @var UserDTO $author */
+        $author = $this->dataBinder->bind($row, UserDTO::class);
+        /** @var CategoryDTO $category */
+        $category = $this->dataBinder->bind($row, CategoryDTO::class);
+
+        $task->setId($row['task_id']);
+        $author->setId($row['author_id']);
+        $category->setId($row['category_id']);
+
+        $task->setAuthor($author);
+        $task->setCategory($category);
+var_dump($task); exit;
+        return $task;
     }
 
     public function insert(TaskDTO $taskDTO): bool
