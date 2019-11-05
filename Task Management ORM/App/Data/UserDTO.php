@@ -4,6 +4,14 @@ namespace App\Data;
 
 class UserDTO
 {
+
+    const MAX_FIELD_LENGTH = 255;
+
+    const USERNAME_MIN_LENGTH = 3;
+    const PASSWORD_MIN_LENGTH = 6;
+    const FIRST_NAME_MIN_LENGTH = 3;
+    const LAST_NAME_MIN_LENGTH = 3;
+
     private $id;
     private $username;
     private $password;
@@ -38,6 +46,13 @@ class UserDTO
 
     public function setUsername($username)
     {
+        PDOValidator::validate(
+            self::USERNAME_MIN_LENGTH,
+            self::MAX_FIELD_LENGTH,
+            $username,
+            'username out of range'
+        );
+
         $this->username = $username;
         return $this;
     }
@@ -49,6 +64,13 @@ class UserDTO
 
     public function setPassword($password)
     {
+        PDOValidator::validate(
+            self::PASSWORD_MIN_LENGTH,
+            self::MAX_FIELD_LENGTH,
+            $password,
+            'password out of range'
+        );
+
         $this->password = $password;
         return $this;
     }
@@ -60,6 +82,13 @@ class UserDTO
 
     public function setFirstName($firstName)
     {
+        PDOValidator::validate(
+            self::FIRST_NAME_MIN_LENGTH,
+            self::MAX_FIELD_LENGTH,
+            $firstName,
+            'firstname out of range'
+        );
+
         $this->firstName = $firstName;
         return $this;
     }
@@ -71,6 +100,13 @@ class UserDTO
 
     public function setLastName($lastName)
     {
+        PDOValidator::validate(
+            self::LAST_NAME_MIN_LENGTH,
+            self::MAX_FIELD_LENGTH,
+            $lastName,
+            'lastname out of range'
+        );
+
         $this->lastName = $lastName;
         return $this;
     }
