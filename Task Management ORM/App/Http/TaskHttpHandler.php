@@ -90,7 +90,7 @@ class TaskHttpHandler extends HttpHandlerAbstract
             $task->setId($getData['id']);
 
             /** @var TaskService $taskService */
-            $taskService->edit($task, $getData['id']);
+            $taskService->edit($task, intval($getData['id']));
             $this->redirect('dashboard.php');
         } catch (\Exception $e) {
 
