@@ -38,13 +38,13 @@ class UserService implements UserServiceInterface
         $currentUser = $this->userRepository->findOneByUsername($username);
 
         if ($currentUser === null) {
-            return null;
+            throw new \Exception("Username not found");
         }
 
         $userPasswordHash =  $currentUser->getPassword();
 
         if (false === password_verify($password, $userPasswordHash)) {
-            return null;
+            throw new \Exception("Invalid password");
         }
 
         return $currentUser;

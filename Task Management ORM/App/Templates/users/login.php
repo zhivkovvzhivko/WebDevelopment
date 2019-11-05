@@ -1,3 +1,7 @@
+<?php foreach ($errors as $error): ?>
+    <p style="color: red"><?= $error ?></p>
+<?php endforeach; ?>
+
 <h1>USER LOGIN</h1>
 
 <form method="POST">

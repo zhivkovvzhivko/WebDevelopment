@@ -48,13 +48,14 @@ class HttpHandler extends HttpHandlerAbstract
 
     private function handleLoginProcess(UserServiceInterface $userService, array $formData): void
     {
-        $currentUser = $userService->login($formData['username'], $formData['password']);
 
-        if ($currentUser !== null) {
+        try {
+            $currentUser = $userService->login($formData['username'], $formData['password']);
             $_SESSION['id'] = $currentUser->getId();
             $this->redirect('dashboard.php');
-        } else {
-            $this->render('app/error', new ErrorDTO('Username does not exist or password mismatch.'));
+        } catch (\Exception $e) {
+            // when user enter wrong username or password stays on login page
+            $this->render('users/login', null, [$e->getMessage()]);
         }
     }
 }
