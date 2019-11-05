@@ -51,6 +51,16 @@ class TaskHttpHandler extends HttpHandlerAbstract
         }
     }
 
+    public function delete(TaskServiceInterface $taskService, array $getData)
+    {
+        if (!isset($getData['id'])) {
+            $this->redirect('dashboard.php');
+        }
+
+        $taskService->delete(intval($getData['id']));
+        $this->redirect('dashboard.php');
+    }
+
     private function handleInsertProcess(TaskServiceInterface $taskService, UserServiceInterface $userService, CategoryServiceInterface $categoryService, $formData)
     {
         /**

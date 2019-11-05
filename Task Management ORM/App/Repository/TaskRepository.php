@@ -61,7 +61,7 @@ class TaskRepository implements TaskRepositoryInterface
         foreach ($lazyTaskResult as $row) {
             /** @var TaskDTO $task */
             $task = $this->dataBinder->bind($row, TaskDTO::class);
-//            echo '<pre/>'; print_r($task); exit(' TR ');
+
             /** @var UserDTO $author */
             $author = $this->dataBinder->bind($row, UserDTO::class);
             /** @var CategoryDTO $category */
