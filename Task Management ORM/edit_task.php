@@ -7,4 +7,4 @@ $userService = new \App\Service\UserService(new \App\Repository\UserRepository($
 $categoryService = new \App\Service\CategoryService(new \App\Repository\CategoryRepository($db));
 
 $taskHttpHandler = new \App\Http\TaskHttpHandler($template, new \Core\DataBinder());
-$taskHttpHandler->add($taskService, $userService, $categoryService, $_POST);
+$taskHttpHandler->edit($taskService, $userService, $categoryService, $_POST, $_GET);

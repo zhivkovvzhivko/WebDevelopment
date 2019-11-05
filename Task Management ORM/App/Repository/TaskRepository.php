@@ -61,6 +61,7 @@ class TaskRepository implements TaskRepositoryInterface
         foreach ($lazyTaskResult as $row) {
             /** @var TaskDTO $task */
             $task = $this->dataBinder->bind($row, TaskDTO::class);
+//            echo '<pre/>'; print_r($task); exit(' TR ');
             /** @var UserDTO $author */
             $author = $this->dataBinder->bind($row, UserDTO::class);
             /** @var CategoryDTO $category */
@@ -97,8 +98,9 @@ class TaskRepository implements TaskRepositoryInterface
             FROM tasks t
             INNER JOIN users u ON t.user_id = u.id 
             INNER JOIN categories c ON t.category_id = c.id
+            WHERE t.id = ?
             ORDER BY t.due_date DESC, t.id ASC
-        ")->execute()
+        ")->execute([$id])
             ->fetch()
             ->current();
 
@@ -116,7 +118,7 @@ class TaskRepository implements TaskRepositoryInterface
 
         $task->setAuthor($author);
         $task->setCategory($category);
-var_dump($task); exit;
+
         return $task;
     }
 

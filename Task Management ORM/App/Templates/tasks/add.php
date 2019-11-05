@@ -18,4 +18,4 @@
     </div>
 </form>
 
-<a href="all.php">List</a>
+<a href="dashboard.php">List</a>

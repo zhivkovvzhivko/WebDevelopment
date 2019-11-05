@@ -21,8 +21,8 @@
             <td><?= $task->getTitle() ?></td>
             <td><?= $task->getAuthor()->getUsername(); ?></td>
             <td><?= $task->getCategory()->getName(); ?></td>
-            <td><a href="edit_task?id=<?=$task->getId()?>">edit task</a></td>
-            <td><a href="delete_task?id=<?=$task->getId()?>">delete task</a></td>
+            <td><a href="edit_task.php?id=<?=$task->getId()?>">edit task</a></td>
+            <td><a href="delete_task.php?id=<?=$task->getId()?>">delete task</a></td>
 
         </tr>
         <?php endforeach; ?>

@@ -32,6 +32,25 @@ class TaskHttpHandler extends HttpHandlerAbstract
         }
     }
 
+    public function edit (TaskServiceInterface $taskService,
+                         UserServiceInterface $userService,
+                         CategoryServiceInterface $categoryService,
+                         array $formData = [], array $getData = [])
+    {
+
+        $task = $taskService->getOne(intval($getData['id']));
+
+        $editDTO = new EditDTO();
+        $editDTO->setTask($task);
+        $editDTO->setCategories($categoryService->getAll());
+
+        if(isset($formData['save'])) {
+            $this->handleEditProcess($taskService, $userService, $categoryService, $formData, $getData);
+        } else {
+            $this->render('tasks/edit', $editDTO);
+        }
+    }
+
     private function handleInsertProcess(TaskServiceInterface $taskService, UserServiceInterface $userService, CategoryServiceInterface $categoryService, $formData)
     {
         /**
@@ -52,5 +71,29 @@ class TaskHttpHandler extends HttpHandlerAbstract
         /** @var TaskService $taskService */
         $taskService->add($task);
         $this->redirect('dashboard.php');
+    }
+
+    private function handleEditProcess(TaskServiceInterface $taskService, UserServiceInterface $userService, CategoryServiceInterface $categoryService, $formData, $getData)
+    {
+        try {
+            /** @var TaskDTO $task */
+            $task = $this->dataBinder->bind($formData, TaskDTO::class);
+
+            /** @var UserService $userService */
+            $author = $userService->currentUser();
+
+            /** @var CategoryService $categoryService */
+            $category = $categoryService->getOne(intval($formData['category_id']));
+
+            $task->setAuthor($author);
+            $task->setCategory($category);
+            $task->setId($getData['id']);
+
+            /** @var TaskService $taskService */
+            $taskService->edit($task, $getData['id']);
+            $this->redirect('dashboard.php');
+        } catch (\Exception $e) {
+
+        }
     }
 }
