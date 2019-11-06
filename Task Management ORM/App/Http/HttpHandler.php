@@ -39,10 +39,11 @@ class HttpHandler extends HttpHandlerAbstract
     {
         $user = $this->dataBinder->bind($formData, UserDTO::class);
 
-        if ($userService->register($user, $formData['confirm_password'])) {
+        try {
+            $userService->register($user, $formData['confirm_password']);
             $this->redirect('login.php');
-        } else {
-            $this->render('app/error', new ErrorDTO('Username is already taken or password mismatch.'));
+        } catch (\Exception $e) {
+            $this->render('users/register', null, [$e->getMessage()]);
         }
     }
 

@@ -20,6 +20,7 @@ class HttpHandlerAbstract
     /**
      * HttpHandlerAbstract constructor.
      * @param TemplateInterface $template
+     * @param DataBinderInterface $dataBinder
      */
     public function __construct(TemplateInterface $template, DataBinderInterface $dataBinder)
     {

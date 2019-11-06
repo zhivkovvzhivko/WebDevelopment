@@ -20,12 +20,12 @@ class UserService implements UserServiceInterface
     public function register(UserDTO $userDTO, string $confirmPassword): bool
     {
         if ($userDTO->getPassword() != $confirmPassword) {
-            return false;
+            throw new \Exception('Confirm password does not match.');
         }
 
         // Checks(select) if username exists in DB already (!== null) - breaks. If NOT exists continue to insert new user.
         if ($this->userRepository->findOneByUsername($userDTO->getUsername()) !== null) {
-            return false;
+            throw new \Exception('Username is already taken.');
         }
 
         $this->encryptPassword($userDTO);
