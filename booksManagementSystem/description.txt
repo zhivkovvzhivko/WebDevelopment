@@ -1,0 +1,19 @@
+Name - Book Management system
+
+Users - First name, Last name, Email, Password, Active
+Books - Name, Isbn, Description, Image
+
+Functionality
+Users:
+    Register
+    Login - User can login after admin approve
+    Logout
+    Edit profile
+
+Book:
+    Create book - only admin can created book
+    Edit book - only admin can edit book
+    View book
+    Delete book - only admin can delete book
+    All books(home) - shows all books and user can add book to collection
+    My books - Collection with choosen books by user. More books can be added
