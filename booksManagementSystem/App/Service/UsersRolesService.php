@@ -18,10 +18,6 @@ class UsersRolesService implements UsersRolesServiceInterface
 
     public function add(int $user_id, int $role_id): bool
     {
-//        echo '<pre/>'; var_dump([
-//            'user'=> $user_id,
-//            'role' => $role_id
-//        ]); die(' ob6ta service');
         $this->db->insert($user_id, $role_id);
 
         return true;

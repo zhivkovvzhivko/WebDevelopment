@@ -64,13 +64,11 @@ class HttpHandler extends HttpHandlerAbstract
 
     private function handleLoginProcess(UserServiceInterface $userService, $formData): void
     {
-//        die('111');
         $curentUser = $userService->login($formData['email'], $formData['password']);
         if ($curentUser !== null && $curentUser->getActive() != 0) {
             $_SESSION['id'] = $curentUser->getId();
             $this->redirect('dashboard.php');
         } else {
-//            die('333');
             $this->render(
                 'users/login',
                 new ErrorDTO('Email or password mismatch or still not approved account by admin')
