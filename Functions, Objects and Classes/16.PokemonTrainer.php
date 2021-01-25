@@ -126,26 +126,24 @@ while (true) {
 		$element = readline();
 		while ($element != 'End') {
 
-			if ($element !== 'End') {
-				foreach ($trainers as $trainer) {
-					foreach ($trainer->getPokemons() as $pokemon) {
-						$pokemonElements[] = $pokemon->getElement();
-					}
+			foreach ($trainers as $trainer) {
+				foreach ($trainer->getPokemons() as $pokemon) {
+					$pokemonElements[] = $pokemon->getElement();
+				}
 
-					if (in_array($element, $pokemonElements)) {
-						$trainer->setBadges(1);
-					} else {
-						foreach ($trainer->getPokemons() as $pokemon) {
-							if ($pokemon->getHealth() > 0) {
-								$pokemon->decreaseHealth(10);
-							} else {
-								$trainer->deletePokemon($pokemon->getName());
-							}
+				if (in_array($element, $pokemonElements)) {
+					$trainer->setBadges(1);
+				} else {
+					foreach ($trainer->getPokemons() as $pokemon) {
+						if ($pokemon->getHealth() > 0) {
+							$pokemon->decreaseHealth(10);
+						} else {
+							$trainer->deletePokemon($pokemon->getName());
 						}
 					}
-					
-					$pokemonElements = [];
 				}
+				
+				$pokemonElements = [];
 			}
 
 			$element = readline();
@@ -164,3 +162,4 @@ while (true) {
 		}
 	}
 }
+
